@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './config/config';
 import { CategoriesModule } from './categories/categories.module';
+import { BannersModule } from './banners/banners.module';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { CategoriesModule } from './categories/categories.module';
       }
       
     }),
-    UsersModule, AuthModule, CategoriesModule],
+    UsersModule, AuthModule, CategoriesModule, BannersModule],
     controllers: [AppController],
     providers: [AppService],
 })
