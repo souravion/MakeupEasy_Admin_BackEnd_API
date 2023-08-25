@@ -12,7 +12,7 @@ export const CrudResponse = {
 
 
   deleteResponse: {
-    message: 'Create operation successful',
+    message: 'Delete operation successful',
     statusCode: HttpStatus.CREATED,
   },
 

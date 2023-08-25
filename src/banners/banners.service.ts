@@ -48,8 +48,6 @@ export class BannersService {
 
     return  CrudResponse.updateResponse
   }
-
-BannersDcouments
   async remove(id: string): Promise<BannersDcouments> {
     return this.bannerModel.findByIdAndDelete(id).exec();
   }
