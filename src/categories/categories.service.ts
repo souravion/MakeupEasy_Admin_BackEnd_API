@@ -1,22 +1,31 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Categories, CategoriesDocument } from './schemas/categories.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { JwtPayload } from 'src/common/interface/jwtPayload.interface';
 
 @Injectable()
 export class CategoriesService {
 
   constructor(@InjectModel(Categories.name)  private categoryModel: Model<CategoriesDocument>){}
-  async create(createCategoryDto: CreateCategoryDto, userInfo: any) {
-    const { userId , name } = userInfo
+  async create(createCategoryDto: CreateCategoryDto, request: JwtPayload) {
+    const existingCategory = await this.categoryModel.findOne({ name: createCategoryDto.name }).exec();
+
+    if(existingCategory)
+    throw new HttpException('Category already exists', HttpStatus.CONFLICT);
+
+    const { userId , name } = request
     const modifiedDto = {
       ...createCategoryDto,
       created_by: {...createCategoryDto.created_by, user_id: userId, name: name },
     };
-    const createdCategory = new this.categoryModel(modifiedDto);
-    return createdCategory.save();
+    await new this.categoryModel(modifiedDto).save();
+    return {
+      message: 'Category created successfully',
+      statusCode: HttpStatus.CREATED,
+    };
   
   }
 
@@ -28,14 +37,19 @@ export class CategoriesService {
     return this.categoryModel.findById(id);
   }
 
-  async update(id: string,updateCategoryDto: UpdateCategoryDto, userInfo:any): Promise<CategoriesDocument> {
-    const {userId, name } = userInfo
+  async update(id: string,updateCategoryDto: UpdateCategoryDto, request:JwtPayload) {
+    const {userId, name } = request
     const modofiedDto = {
       ...updateCategoryDto,
       updated_by: {...updateCategoryDto.updated_by, user_id: userId, name: name }
 
     }
-    return this.categoryModel.findByIdAndUpdate(id, modofiedDto, { new: true }).exec();
+    await this.categoryModel.findByIdAndUpdate(id, modofiedDto, { new: true }).exec();
+
+    return {
+      message: 'Category updated successfully',
+      statusCode: HttpStatus.OK,
+    }
   }
 
   async remove(id: string): Promise<CategoriesDocument> {
