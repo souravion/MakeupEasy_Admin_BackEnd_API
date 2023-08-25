@@ -7,9 +7,10 @@ import { RefreshTokenStrategy } from './strategies/refreshToken.strategy';
 import { UsersModule } from 'src/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { config } from 'src/config/config';
+import { CategoriesModule } from 'src/categories/categories.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule, ],
+  imports: [JwtModule.register({}), UsersModule],
   controllers: [AuthController],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
 })

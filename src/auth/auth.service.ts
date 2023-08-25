@@ -27,7 +27,7 @@ export class AuthService {
           ...createUserDto,
           password: hash,
         });
-        const tokens = await this.getTokens(newUser._id, newUser.username);
+        const tokens = await this.getTokens(newUser._id, newUser.username,newUser.name);
         await this.updateRefreshToken(newUser._id, tokens.refreshToken);
         return tokens;
       }
@@ -39,7 +39,7 @@ export class AuthService {
         const passwordMatches = await argon2.verify(user.password, data.password);
         if (!passwordMatches)
           throw new BadRequestException('Password is incorrect');
-        const tokens = await this.getTokens(user._id, user.username);
+        const tokens = await this.getTokens(user._id, user.username, user.name);
         await this.updateRefreshToken(user._id, tokens.refreshToken);
         return tokens;
       }
@@ -59,22 +59,24 @@ export class AuthService {
         });
       }
     
-      async getTokens(userId: string, username: string) {
+      async getTokens(userId: string, username: string, name:string) {
         const [accessToken, refreshToken] = await Promise.all([
           this.jwtService.signAsync(
             {
-              sub: userId,
+              userId: userId,
               username,
+              name
             },
             {
               secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-              expiresIn: '10s',
+              expiresIn: '7d',
             },
           ),
           this.jwtService.signAsync(
             {
-              sub: userId,
+              userId: userId,
               username,
+              name
             },
             {
               secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
@@ -99,7 +101,7 @@ export class AuthService {
           refreshToken,
         );
         if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
-        const tokens = await this.getTokens(user.id, user.username);
+        const tokens = await this.getTokens(user.id, user.username, user.name);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return tokens;
       }

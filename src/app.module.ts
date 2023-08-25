@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './config/config';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { config } from './config/config';
       { 
         isGlobal: true, load: [config]
       }),
-    // MongooseModule.forRoot('mongodb+srv://souravion:cwygl8IIlItv6guV@cluster0.5f2lxhi.mongodb.net/'), 
+      
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -24,7 +25,7 @@ import { config } from './config/config';
       }
       
     }),
-    UsersModule, AuthModule],
+    UsersModule, AuthModule, CategoriesModule],
     controllers: [AppController],
     providers: [AppService],
 })
