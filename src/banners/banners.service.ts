@@ -48,7 +48,11 @@ export class BannersService {
 
     return  CrudResponse.updateResponse
   }
-  async remove(id: string): Promise<BannersDcouments> {
-    return this.bannerModel.findByIdAndDelete(id).exec();
+  async remove(id: string){
+    const isExistingBanner = await this.bannerModel.findOne({ _id: id }).exec();
+    if(!isExistingBanner)
+    throw new HttpException("Invalid request", HttpStatus.BAD_REQUEST)
+    await this.bannerModel.findByIdAndDelete(id).exec();
+    return CrudResponse.deleteResponse
   }
 }

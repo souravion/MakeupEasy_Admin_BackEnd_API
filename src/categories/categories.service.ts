@@ -48,8 +48,12 @@ export class CategoriesService {
     
   }
 
-  async remove(id: string): Promise<CategoriesDocument> {
-    return this.categoryModel.findByIdAndDelete(id).exec();
+  async remove(id: string)  {
+    const isExistingCategory = await this.categoryModel.findOne({ _id: id }).exec();
+    if(!isExistingCategory)
+    throw new HttpException("Invalid request", HttpStatus.BAD_REQUEST)
+    await this.categoryModel.findByIdAndDelete(id).exec();
+    return CrudResponse.deleteResponse
   }
 
 }
