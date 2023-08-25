@@ -5,6 +5,7 @@ import { Categories, CategoriesDocument } from './schemas/categories.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtPayload } from 'src/common/interface/jwtPayload.interface';
+import { CrudResponse } from 'src/common/type/crudResponses';
 
 @Injectable()
 export class CategoriesService {
@@ -22,10 +23,7 @@ export class CategoriesService {
       created_by: {...createCategoryDto.created_by, user_id: userId, name: name },
     };
     await new this.categoryModel(modifiedDto).save();
-    return {
-      message: 'Category created successfully',
-      statusCode: HttpStatus.CREATED,
-    };
+    return  CrudResponse.createResponse
   
   }
 
@@ -46,10 +44,8 @@ export class CategoriesService {
     }
     await this.categoryModel.findByIdAndUpdate(id, modofiedDto, { new: true }).exec();
 
-    return {
-      message: 'Category updated successfully',
-      statusCode: HttpStatus.OK,
-    }
+    return CrudResponse.updateResponse
+    
   }
 
   async remove(id: string): Promise<CategoriesDocument> {

@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Banners, BannersDcouments } from './shemas/banners.sheamas';
 import { Model } from 'mongoose';
 import { HttpStatus , HttpException} from '@nestjs/common';
+import { CrudResponse } from 'src/common/type/crudResponses';
 @Injectable()
 export class BannersService {
   constructor(@InjectModel(Banners.name) private bannerModel :Model<BannersDcouments>){}
@@ -24,10 +25,7 @@ export class BannersService {
 
     }
     await new this.bannerModel(modifiedDto).save();
-    return {
-      message: 'Banner created successfully',
-      statusCode: HttpStatus.CREATED,
-    };
+    return  CrudResponse.createResponse
   }
 
   async findAll(): Promise<BannersDcouments[]> {
@@ -48,10 +46,7 @@ export class BannersService {
     }
     await this.bannerModel.findByIdAndUpdate(id, modofiedDto, { new: true }).exec();
 
-    return {
-      message: 'Banner updated successfully',
-      statusCode: HttpStatus.OK,
-    }
+    return  CrudResponse.updateResponse
   }
 
 BannersDcouments
