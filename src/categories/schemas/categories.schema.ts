@@ -16,20 +16,20 @@ class User {
   name: string;
 }
 
-/**
- * ---------------------------------------------------------
- * @description This below scheam we use for images type this type of object 
- * property will hold the property type
- */
+// /**
+//  * ---------------------------------------------------------
+//  * @description This below scheam we use for images type this type of object 
+//  * property will hold the property type
+//  */
 
-@Schema({_id: false})
-class Images {
-    @Prop({type: String})
-    icon:string
+// @Schema({_id: false})
+// class Images {
+//     @Prop({type: String})
+//     icon:string
 
-    @Prop({ type: String})
-    background:string
-}
+//     @Prop({ type: String})
+//     background:string
+// }
 
 
 @Schema()
@@ -40,8 +40,8 @@ export class Categories {
   @Prop({ type: String, required: true})
   description:string
 
-  @Prop({ type: Images, required: true})
-  images:Images
+  @Prop({ type: String, required: true})
+  image: string
   
   @Prop( { type: Date, default: Date.now })
   created_at:Date;

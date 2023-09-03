@@ -9,7 +9,7 @@ import { config } from './config/config';
 import { CategoriesModule } from './categories/categories.module';
 import { BannersModule } from './banners/banners.module';
 import { FaqModule } from './faq/faq.module';
-
+import { FirebaseModule } from './common/firebase/firebase/firebase.module';
 @Module({
   imports: [
     ConfigModule.forRoot(
@@ -22,7 +22,8 @@ import { FaqModule } from './faq/faq.module';
       inject: [ConfigService],
       useFactory: async(configService) => {
         return {
-          uri:configService.internalConfig.mongodb.database.connectionString
+          uri:configService.internalConfig.mongodb.database.connectionString,
+          // databaseName:configService.internalConfig.mongodb.database.databaseName
         }
       }
       

@@ -6,19 +6,9 @@ export class CreateCategoryDto {
     @IsNotEmpty()
     @IsString()
     description: string
-    images: ImagesDto
+    image: string
     created_by: CreatedByUserInfo
     updated_by: CreatedByUserInfo
-}
-
-
-class ImagesDto {
-    @IsNotEmpty()
-    @IsString()
-    icon: string
-    @IsNotEmpty()
-    @IsString()
-    background: string
 }
 
 class CreatedByUserInfo {

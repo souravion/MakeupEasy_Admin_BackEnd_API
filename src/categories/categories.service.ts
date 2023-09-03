@@ -13,7 +13,7 @@ export class CategoriesService {
   constructor(@InjectModel(Categories.name)  private categoryModel: Model<CategoriesDocument>){}
   async create(createCategoryDto: CreateCategoryDto, request: JwtPayload) {
     const existingCategory = await this.categoryModel.findOne({ name: createCategoryDto.name }).exec();
-
+    console.log(createCategoryDto)
     if(existingCategory)
     throw new HttpException('Category already exists', HttpStatus.CONFLICT);
 
@@ -22,6 +22,7 @@ export class CategoriesService {
       ...createCategoryDto,
       created_by: {...createCategoryDto.created_by, user_id: userId, name: name },
     };
+
     await new this.categoryModel(modifiedDto).save();
     return  CrudResponse.createResponse
   
