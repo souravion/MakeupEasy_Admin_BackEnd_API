@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from 'src/admin/auth/auth.service';
 
 @Controller('users')
 export class UsersController {

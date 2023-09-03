@@ -3,7 +3,7 @@ import { FaqService } from './faq.service';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { ExtendedRequest } from 'src/auth/auth.interface';
+import { ExtendedRequest } from 'src/admin/auth/auth.interface';
 
 @UseGuards(AccessTokenGuard)
 @Controller('admin/faq')

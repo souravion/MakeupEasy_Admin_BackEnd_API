@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Req,UseGuards } from
 import { BannersService } from './banners.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
-import { ExtendedRequest } from 'src/auth/auth.interface';
+import { ExtendedRequest } from 'src/admin/auth/auth.interface';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 
 @UseGuards(AccessTokenGuard)

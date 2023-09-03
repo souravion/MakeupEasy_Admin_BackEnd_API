@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './admin/users/users.module';
+import { AuthModule } from './admin/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './config/config';
-import { CategoriesModule } from './categories/categories.module';
-import { BannersModule } from './banners/banners.module';
-import { FaqModule } from './faq/faq.module';
+import { CategoriesModule } from './admin/categories/categories.module';
+import { BannersModule } from './admin/banners/banners.module';
+import { FaqModule } from './admin/faq/faq.module';
 import { FirebaseModule } from './common/firebase/firebase/firebase.module';
 @Module({
   imports: [
