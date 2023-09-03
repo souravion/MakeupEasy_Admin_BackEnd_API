@@ -3,9 +3,9 @@ import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { ExtendedRequest } from 'src/admin/auth/auth.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FirebaseService } from 'src/common/firebase/firebase/firebase.service';
+import { ExtendedRequest } from '../admin_auth/admin_auth.interface';
 
 @UseGuards(AccessTokenGuard)
 @Controller('admin/categories')

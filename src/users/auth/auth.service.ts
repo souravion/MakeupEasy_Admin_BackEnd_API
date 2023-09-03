@@ -1,32 +1,45 @@
 import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
-import { UsersService } from 'src/admin/users/users.service';
+import { CreateUserDto } from 'src/users/users/dto/create-user.dto';
+
 import { AuthDto } from './dto/auth.dto';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { LocationService } from 'src/users/users/location.service';
+import { UsersService } from 'src/users/users/users.service';
+
 @Injectable()
-export class AuthService {
+export class UserAuthService {
     constructor(
         private usersService: UsersService,
         private jwtService: JwtService,
         private configService: ConfigService,
+        private locationService:LocationService
       ) {}
       async signUp(createUserDto: CreateUserDto): Promise<any> {
+
+        console.log(createUserDto)
         // Check if user exists
         const userExists = await this.usersService.findByUsername(
-          createUserDto.name,
+          createUserDto.userInfo.phone,
         );
         if (userExists) {
           throw new BadRequestException('User already exists');
         }
     
         // Hash password
-        const hash = await this.hashData(createUserDto.password);
+        const hash = await this.hashData(createUserDto.userInfo.password);
         const newUser = await this.usersService.create({
-          ...createUserDto,
+          ...createUserDto.userInfo,
           password: hash,
         });
+
+        await this.locationService.createLocation({
+          ...createUserDto.locationInfo,
+          user_id:newUser._id
+        })
+
+
         const tokens = await this.getTokens(newUser._id, newUser.username,newUser.name);
         await this.updateRefreshToken(newUser._id, tokens.refreshToken);
         return tokens;

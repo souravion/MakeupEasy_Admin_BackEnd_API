@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
-import { AuthService } from 'src/admin/auth/auth.service';
+import { UserAuthService } from 'src/users/auth/auth.service';
 
 @Controller('users')
 export class UsersController {
@@ -12,7 +12,7 @@ export class UsersController {
     ) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: UserDto) {
     return this.usersService.create(createUserDto);
   }
 

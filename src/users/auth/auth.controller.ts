@@ -1,14 +1,14 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { CreateUserDto } from 'src/admin/users/dto/create-user.dto';
+import { UserAuthService } from './auth.service';
+import { CreateUserDto } from 'src/users/users/dto/create-user.dto';
 import { AuthDto } from './dto/auth.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { RefreshTokenGuard } from 'src/common/guards/refreshToken.guard';
 import { ExtendedRequest } from './auth.interface';
 
-@Controller('auth')
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+@Controller('user/auth')
+export class UserAuthController {
+  constructor(private readonly authService: UserAuthService) {}
 
   @Post('signup')
   signup(@Body() createUserDto: CreateUserDto) {
