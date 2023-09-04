@@ -32,7 +32,7 @@ class User {
 // }
 
 
-@Schema()
+@Schema({versionKey: false})
 export class Categories {
   @Prop({ type: String, required: true })
   name: string;
