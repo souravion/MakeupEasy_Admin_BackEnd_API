@@ -19,7 +19,7 @@ class User {
 }
 
 
-@Schema({})
+@Schema({versionKey: false})
 export class Banners {
 
     @Prop({type: String})

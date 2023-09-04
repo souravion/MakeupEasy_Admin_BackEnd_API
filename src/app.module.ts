@@ -6,13 +6,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './config/config';
 import { CategoriesModule } from './admin/categories/categories.module';
-// CategoriesModule
 import { BannersModule } from './admin/banners/banners.module';
+
 import { FaqModule } from './admin/faq/faq.module';
 import { UserAuthModule } from './users/auth/auth.module';
 import { AdminAuthModule } from './admin/admin_auth/admin_auth.module';
 import { AdminUserModule } from './admin/admin_user/admin_user.module';
 import { CategoriesModule as AppCategoriesModule } from './users/categories/categories.module';
+import { BannarsModule as AppBannarsModule} from './users/bannars/bannars.module';
 
 @Module({
   imports: [
@@ -61,7 +62,8 @@ import { CategoriesModule as AppCategoriesModule } from './users/categories/cate
     BannersModule, 
     FaqModule,
     UserAuthModule,
-    AppCategoriesModule
+    AppCategoriesModule,
+    AppBannarsModule
   ],
     controllers: [AppController],
     providers: [AppService],
