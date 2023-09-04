@@ -1,18 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req,UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req,UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { BannersService } from './banners.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
 import { AccessTokenGuard } from 'src/common/guards/accessToken.guard';
 import { ExtendedRequest } from '../admin_auth/admin_auth.interface';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FirebaseService } from 'src/common/firebase/firebase/firebase.service';
 
 @UseGuards(AccessTokenGuard)
 @Controller('admin/banners')
 export class BannersController {
-  constructor(private readonly bannersService: BannersService) {}
+  constructor(
+    private readonly bannersService: BannersService,
+    private readonly firebaseService:FirebaseService
+    ) {}
 
   @Post()
-  create(@Body() createBannerDto: CreateBannerDto, @Req() request: ExtendedRequest ) {
-    return this.bannersService.create(createBannerDto, request.user);
+  @UseInterceptors(FileInterceptor('images'))
+  async create(@UploadedFile() file, @Body() createBannerDto: CreateBannerDto, @Req() request: ExtendedRequest ) {
+    // console.log(createBannerDto)
+    const uploadedFilename = await this.firebaseService.uploadImage(file);
+
+    const imageUrl = await this.firebaseService.getImageUrl(uploadedFilename);
+    const modifiedData = {
+      ...createBannerDto, // Copy existing properties
+      image_url: imageUrl.toString(), // Add the image property using tooStriong becuse imageurl return array
+    };
+    
+    return this.bannersService.create(modifiedData, request.user);
   }
 
   @Get()

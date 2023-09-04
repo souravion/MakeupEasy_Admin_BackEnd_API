@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-class ImageDto {
-    @IsString()
-    image_url: string;
-    order: number;
-  }
+// class ImageDto {
+//     @IsString()
+//     image_url: string;
+//     order: number;
+//   }
 
 class CreatedByUserInfo {
     @IsNotEmpty()
@@ -25,7 +25,7 @@ export class CreateBannerDto {
     @IsString()
     description?: string
     @IsNotEmpty()
-    images: ImageDto[]
+    image_url: string
     created_by: CreatedByUserInfo
     updated_by: CreatedByUserInfo
 }
