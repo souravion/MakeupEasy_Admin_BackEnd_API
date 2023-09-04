@@ -35,24 +35,22 @@ import { AdminUserModule } from './admin/admin_user/admin_user.module';
           console.log('Admin', configService.internalConfig.mongodb.admindatabase.connectionString)
           return {
             uri: configService.internalConfig.mongodb.admindatabase.connectionString,
-            connectionName: 'ADMIN', // Use the correct connection name
-            poolSize: 10, // Set an appropriate pool size
           };
         },
       }),
 
-      MongooseModule.forRootAsync({
-        imports: [ConfigModule],
-        inject: [ConfigService],
-        useFactory: async (configService) => {
-          console.log("User", configService.internalConfig.mongodb.userdatabase.connectionString)
-          return {
-            uri: configService.internalConfig.mongodb.userdatabase.connectionString,
-            connectionName: 'APP', // Use the correct connection name
-            poolSize: 10, // Set an appropriate pool size
-          };
-        },
-      }),
+      // MongooseModule.forRootAsync({
+      //   imports: [ConfigModule],
+      //   inject: [ConfigService],
+      //   useFactory: async (configService) => {
+      //     console.log("User", configService.internalConfig.mongodb.userdatabase.connectionString)
+      //     return {
+      //       uri: configService.internalConfig.mongodb.userdatabase.connectionString,
+      //       connectionName: 'APP', // Use the correct connection name
+      //       poolSize: 10, // Set an appropriate pool size
+      //     };
+      //   },
+      // }),
 
 
     AdminUserModule, 
