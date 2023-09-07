@@ -13,7 +13,6 @@ interface ApiConfigProps {
     port: number
     api: ApiConfigProps
     mongodb: {
-      admindatabase: MongodbConfigProps
-      userdatabase: MongodbConfigProps
+      database: MongodbConfigProps
     }
    }
