@@ -7,9 +7,13 @@ export const config = ():ConfigProps => ({
       httpTimeout: 1000,
     },
     mongodb: {
-      database: {
-        connectionString: process.env.MONGODB_CONNECTION_STRING || 'mongodb://localhost:27017',
-        databaseName: process.env.NODE_ENV || 'local'
+      admindatabase: {
+        connectionString: process.env.ADMIN_MONGODB_CONNECTION_STRING || 'mongodb://localhost:27017',
+        databaseName: process.env.ADMIN_DB || 'local'
+      },
+      userdatabase: {
+        connectionString: process.env.USER_MONGODB_CONNECTION_STRING || 'mongodb://localhost:27017',
+        databaseName: process.env.USER_DB || 'local'
       }
     }
    });
