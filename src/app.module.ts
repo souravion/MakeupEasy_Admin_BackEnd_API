@@ -2,13 +2,18 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from './config/config';
-import { CategoriesModule } from './categories/categories.module';
-import { BannersModule } from './banners/banners.module';
-import { FaqModule } from './faq/faq.module';
+import { CategoriesModule } from './admin/categories/categories.module';
+import { BannersModule } from './admin/banners/banners.module';
+
+import { FaqModule } from './admin/faq/faq.module';
+import { UserAuthModule } from './users/auth/auth.module';
+import { AdminAuthModule } from './admin/admin_auth/admin_auth.module';
+import { AdminUserModule } from './admin/admin_user/admin_user.module';
+import { CategoriesModule as AppCategoriesModule } from './users/categories/categories.module';
+import { BannarsModule as AppBannarsModule} from './users/bannars/bannars.module';
 
 @Module({
   imports: [
@@ -28,7 +33,14 @@ import { FaqModule } from './faq/faq.module';
       }
       
     }),
-    UsersModule, AuthModule, CategoriesModule, BannersModule, FaqModule],
+    AdminUserModule, 
+    AdminAuthModule, 
+    CategoriesModule, 
+    BannersModule, 
+    FaqModule,
+    UserAuthModule,
+    AppCategoriesModule,
+    AppBannarsModule],
     controllers: [AppController],
     providers: [AppService],
 })
