@@ -22,7 +22,8 @@ import { FaqModule } from './faq/faq.module';
       inject: [ConfigService],
       useFactory: async(configService) => {
         return {
-          uri:configService.internalConfig.mongodb.database.connectionString
+          uri:configService.internalConfig.mongodb.database.connectionString,
+          dbName: configService.internalConfig.mongodb.database.databaseName
         }
       }
       
