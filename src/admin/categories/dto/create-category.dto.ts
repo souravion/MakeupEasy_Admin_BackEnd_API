@@ -6,6 +6,9 @@ export class CreateCategoryDto {
     @IsNotEmpty()
     @IsString()
     description: string
+
+    status:string
+
     image: string
     created_by: CreatedByUserInfo
     updated_by: CreatedByUserInfo

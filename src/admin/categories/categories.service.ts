@@ -36,6 +36,7 @@ export class CategoriesService {
   }
 
   async update(id: string,updateCategoryDto: UpdateCategoryDto, request:JwtPayload) {
+    console.log(updateCategoryDto)
     const {userId, name } = request
     const modofiedDto = {
       ...updateCategoryDto,

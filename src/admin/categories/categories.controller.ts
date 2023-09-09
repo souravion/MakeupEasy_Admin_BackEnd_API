@@ -46,6 +46,8 @@ export class CategoriesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto, @Req() request:ExtendedRequest) {
+    console.log(id)
+    console.log(updateCategoryDto)
     return this.categoriesService.update(id, updateCategoryDto, request.user);
   }
 
