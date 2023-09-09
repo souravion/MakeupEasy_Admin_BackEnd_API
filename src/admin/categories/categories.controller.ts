@@ -16,7 +16,7 @@ export class CategoriesController {
     ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('images'))
+  @UseInterceptors(FileInterceptor('image'))
   async create(@UploadedFile() file, @Body() formData:CreateCategoryDto, @Req() request: ExtendedRequest) {
 
     const uploadedFilename = await this.firebaseService.uploadImage(file);
