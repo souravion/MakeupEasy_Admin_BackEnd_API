@@ -67,4 +67,16 @@ export class FirebaseService {
 
     return imageUrl;
   }
+
+  async deleteImageByFileName(filename: string): Promise<void> {
+    const storageBucket = admin.storage().bucket();
+
+    try {
+      await storageBucket.file(filename).delete();
+    } catch (error) {
+      throw new Error(`Error deleting image: ${error.message}`);
+    }
+  }
+
+
 }

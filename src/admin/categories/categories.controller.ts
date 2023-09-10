@@ -20,13 +20,15 @@ export class CategoriesController {
   async create(@UploadedFile() file, @Body() formData:CreateCategoryDto, @Req() request: ExtendedRequest) {
 
     const uploadedFilename = await this.firebaseService.uploadImage(file);
-
+    console.log(uploadedFilename)
     const imageUrl = await this.firebaseService.getImageUrl(uploadedFilename);
 
 
     const modifiedData = {
       ...formData, // Copy existing properties
-      image: imageUrl.toString(), // Add the image property using tooStriong becuse imageurl return array
+      image: imageUrl.toString(),
+      fileName:uploadedFilename
+
     };
 
 
@@ -45,10 +47,11 @@ export class CategoriesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto, @Req() request:ExtendedRequest) {
+  update(@Param('id') id: string, @Body() formData: UpdateCategoryDto, @Req() request:ExtendedRequest) {
     console.log(id)
-    console.log(updateCategoryDto)
-    return this.categoriesService.update(id, updateCategoryDto, request.user);
+    console.log(formData)
+    console.log(request.user)
+    // return this.categoriesService.update(id, updateCategoryDto, request.user);
   }
 
   @Delete(':id')

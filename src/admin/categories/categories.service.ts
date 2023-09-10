@@ -6,11 +6,17 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { JwtPayload } from 'src/common/interface/jwtPayload.interface';
 import { CrudResponse } from 'src/common/type/crudResponses';
+import { FirebaseService } from 'src/common/firebase/firebase/firebase.service';
 
 @Injectable()
 export class CategoriesService {
 
-  constructor(@InjectModel(Categories.name)  private categoryModel: Model<CategoriesDocument>){}
+  constructor(
+    @InjectModel(Categories.name)  
+    private categoryModel: Model<CategoriesDocument>,
+    private firebaseService:FirebaseService
+    
+    ){}
   async create(createCategoryDto: CreateCategoryDto, request: JwtPayload) {
     const existingCategory = await this.categoryModel.findOne({ name: createCategoryDto.name }).exec();
     if(existingCategory)
@@ -51,10 +57,17 @@ export class CategoriesService {
 
   async remove(id: string)  {
     const isExistingCategory = await this.categoryModel.findOne({ _id: id }).exec();
-    if(!isExistingCategory)
-    throw new HttpException("Invalid request", HttpStatus.BAD_REQUEST)
-    await this.categoryModel.findByIdAndDelete(id).exec();
-    return CrudResponse.deleteResponse
+    if(!isExistingCategory){
+      throw new HttpException('Invalid request', HttpStatus.BAD_REQUEST);
+    }
+    try{
+      await this.categoryModel.findByIdAndDelete(id).exec();
+      const fileNmae = isExistingCategory.fileName;
+      await this.firebaseService.deleteImageByFileName(fileNmae)
+      return CrudResponse.deleteResponse
+    }catch(dbError){
+      throw new HttpException('Invalid request', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 }
