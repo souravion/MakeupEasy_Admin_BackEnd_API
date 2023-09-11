@@ -1,4 +1,4 @@
-import {UploadedFile, UseInterceptors, Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {UploadedFile, UseInterceptors, Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards, UsePipes, ValidationPipe, Put } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -20,7 +20,6 @@ export class CategoriesController {
   async create(@UploadedFile() file, @Body() formData:CreateCategoryDto, @Req() request: ExtendedRequest) {
 
     const uploadedFilename = await this.firebaseService.uploadImage(file);
-    console.log(uploadedFilename)
     const imageUrl = await this.firebaseService.getImageUrl(uploadedFilename);
 
 
@@ -46,12 +45,15 @@ export class CategoriesController {
     return this.categoriesService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() formData: UpdateCategoryDto, @Req() request:ExtendedRequest) {
-    console.log(id)
-    console.log(formData)
-    console.log(request.user)
-    // return this.categoriesService.update(id, updateCategoryDto, request.user);
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('image'))
+  update(
+    @Param('id') id: string, 
+    @Body() formData: UpdateCategoryDto, 
+    @Req() request:ExtendedRequest,
+    @UploadedFile() image?: any
+    ) {
+    return this.categoriesService.update(id, formData, request.user , image);
   }
 
   @Delete(':id')
