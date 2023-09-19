@@ -25,7 +25,13 @@ export class CreateBannerDto {
     @IsString()
     description?: string
     @IsNotEmpty()
+
+    @IsString()
+    status:string
+
+    @IsString()
     image_url: string
+    
     created_by: CreatedByUserInfo
     updated_by: CreatedByUserInfo
 }

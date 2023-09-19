@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req,UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req,UseGuards, UseInterceptors, UploadedFile, Put } from '@nestjs/common';
 import { BannersService } from './banners.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
@@ -11,23 +11,13 @@ import { FirebaseService } from 'src/common/firebase/firebase/firebase.service';
 @Controller('admin/banners')
 export class BannersController {
   constructor(
-    private readonly bannersService: BannersService,
-    private readonly firebaseService:FirebaseService
+    private readonly bannersService: BannersService
     ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('images'))
-  async create(@UploadedFile() file, @Body() createBannerDto: CreateBannerDto, @Req() request: ExtendedRequest ) {
-    // console.log(createBannerDto)
-    const uploadedFilename = await this.firebaseService.uploadImage(file);
-
-    const imageUrl = await this.firebaseService.getImageUrl(uploadedFilename);
-    const modifiedData = {
-      ...createBannerDto, // Copy existing properties
-      image_url: imageUrl.toString(), // Add the image property using tooStriong becuse imageurl return array
-    };
-    
-    return this.bannersService.create(modifiedData, request.user);
+  @UseInterceptors(FileInterceptor('image'))
+  async create(@UploadedFile() file,  @Body() createBannerDto: CreateBannerDto, @Req() request: ExtendedRequest) {
+    return this.bannersService.create(createBannerDto, request.user , file);
   }
 
   @Get()
@@ -40,9 +30,20 @@ export class BannersController {
     return this.bannersService.findById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBannerDto: UpdateBannerDto, @Req() request:ExtendedRequest) {
-    return this.bannersService.update(id, updateBannerDto, request.user);
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateBannerDto: UpdateBannerDto, @Req() request:ExtendedRequest) {
+  //   return this.bannersService.update(id, updateBannerDto, request.user);
+  // }
+
+  @Put(':id')
+  @UseInterceptors(FileInterceptor('image_url'))
+  update(
+    @Param('id') id: string, 
+    @Body() formData: UpdateBannerDto, 
+    @Req() request:ExtendedRequest,
+    @UploadedFile() image?: any
+    ) {
+    return this.bannersService.update(id, formData, request.user , image);
   }
 
   @Delete(':id')
