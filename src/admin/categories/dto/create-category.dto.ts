@@ -3,10 +3,20 @@ export class CreateCategoryDto {
     @IsNotEmpty()
     @IsString()
     name: string
+    
     @IsNotEmpty()
     @IsString()
     description: string
+
+    @IsString()
+    status:string
+
+    @IsString()
     image: string
+
+    @IsNotEmpty()
+    @IsString()
+    fileName:string;
     created_by: CreatedByUserInfo
     updated_by: CreatedByUserInfo
 }

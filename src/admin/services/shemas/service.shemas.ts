@@ -2,17 +2,17 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { User } from 'src/common/schemas/user.schema';
 
-export type FAQDocument = FAQ & Document;
+export type ServiceDocument = Service & Document;
 @Schema()
-export class FAQ {
+export class Service {
   @Prop({ required: true })
-  question: string;
+  name: string;
 
   @Prop({ required: true })
-  answer: string;
+  description: string;
 
   @Prop({ default: 'Inactive', enum: ['Active', 'Inactive'] })
-  status: string
+  status: string;
 
   @Prop( { type: Date, default: Date.now })
   created_at:Date;
@@ -27,4 +27,4 @@ export class FAQ {
   updated_by:User
 }
 
-export const FAQSchema = SchemaFactory.createForClass(FAQ);
+export const ServiceSchema = SchemaFactory.createForClass(Service);

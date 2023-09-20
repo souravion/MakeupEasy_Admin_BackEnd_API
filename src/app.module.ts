@@ -14,6 +14,7 @@ import { AdminAuthModule } from './admin/admin_auth/admin_auth.module';
 import { AdminUserModule } from './admin/admin_user/admin_user.module';
 import { CategoriesModule as AppCategoriesModule } from './users/categories/categories.module';
 import { BannarsModule as AppBannarsModule} from './users/bannars/bannars.module';
+import { ServicesModule } from './admin/services/services.module';
 
 @Module({
   imports: [
@@ -38,9 +39,12 @@ import { BannarsModule as AppBannarsModule} from './users/bannars/bannars.module
     CategoriesModule, 
     BannersModule, 
     FaqModule,
+    ServicesModule,
     UserAuthModule,
     AppCategoriesModule,
-    AppBannarsModule],
+    AppBannarsModule,
+
+  ],
     controllers: [AppController],
     providers: [AppService],
 })

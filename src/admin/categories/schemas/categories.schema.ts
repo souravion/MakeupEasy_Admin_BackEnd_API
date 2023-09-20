@@ -43,7 +43,10 @@ export class Categories {
   @Prop({ type: String, required: true})
   image: string
   
-  @Prop({ default: 'inactive', enum: ['active', 'inactive'] }) 
+  @Prop({ type: String, required: true})
+  fileName
+
+  @Prop({ default: 'Inactive', enum: ['Active', 'Inactive'] }) 
   status: string;
 
   @Prop( { type: Date, default: Date.now })

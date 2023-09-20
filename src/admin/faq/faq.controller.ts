@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Body, Param, Delete, UseGuards, Put } from '@nestjs/common';
 import { FaqService } from './faq.service';
 import { CreateFaqDto } from './dto/create-faq.dto';
 import { UpdateFaqDto } from './dto/update-faq.dto';
@@ -25,7 +25,7 @@ export class FaqController {
     return this.faqService.findById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateFaqDto: UpdateFaqDto, @Req() request:ExtendedRequest) {
     return this.faqService.update(id, updateFaqDto, request.user);
   }
