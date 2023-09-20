@@ -11,8 +11,8 @@ export class FAQ {
   @Prop({ required: true })
   answer: string;
 
-  @Prop({ default: true }) // Set default value to true for active
-  active: boolean;
+  @Prop({ default: 'Inactive', enum: ['Active', 'Inactive'] })
+  status: string
 
   @Prop( { type: Date, default: Date.now })
   created_at:Date;

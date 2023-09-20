@@ -22,7 +22,6 @@ export class ServicesService {
       ...createServiceDto,
       created_by:{...createServiceDto, user_id: userId, name:name }
     }
-    console.log(modifiedDto)
     await new this.serviceModel(modifiedDto).save();
     return CrudResponse.createResponse
   }
