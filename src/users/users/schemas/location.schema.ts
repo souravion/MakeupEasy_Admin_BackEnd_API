@@ -16,14 +16,20 @@ export class Location {
   @Prop({ type: Number, required: true })
   longitude: number;
 
-  @Prop({ type: String })
+  @Prop({ type: String})
+  sub_region: string
+
+  @Prop({ type: String, required: true })
   city: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String , required: true})
   state: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   country: string;
+
+  @Prop({ type: Number , required: true })
+  postal_code: number;
 }
 
 export const LocationSchema = SchemaFactory.createForClass(Location);

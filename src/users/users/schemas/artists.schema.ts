@@ -13,6 +13,7 @@ export class Artists {
     @Prop({type: Types.ObjectId})
     portfolio:Types.ObjectId
 
+    // Service 1 ,  Service 1 ,  Service 1,  Service 1,  Service 1 , Service 1 , Service 1
     @Prop({type: String })
     services: string
 
