@@ -10,7 +10,7 @@ export class Studio {
   user_id: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, required: true })
-  studio_id: Types.ObjectId;
+  location_id: Types.ObjectId;
 
   @Prop({ type: String, required: true })
   name: number;
@@ -35,6 +35,8 @@ export class Studio {
 
   @Prop({ type: Date})
   created_date:Date
+
+  
 
 
 
