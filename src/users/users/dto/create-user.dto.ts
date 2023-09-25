@@ -1,24 +1,69 @@
-import { IsString, IsEmail, IsNotEmpty, IsArray, IsNumber, IsPositive, IsDate, Min, Max } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, IsArray, IsNumber, IsPositive, IsDate, Min, Max, IsObject } from 'class-validator';
 
-export class CreateUserDto {
-  userInfo:UserDto;
-  locationInfo:LocationDto;
+class Country {
+
+  @IsString()
+  code:string
+
+  @IsString()
+  name:string
+
 }
 
 
-export class UserDto {
-  @IsString()
-  @IsNotEmpty()
-  username: string;
+class AddressDetails {
 
-  @IsEmail()
+  @IsString()
+  areasOfInterest:[]
+
+  @IsString()
+  locality:string
+
+  @IsString()
+  subLocality:string
+
+  @IsNumber()
+  postalCode:number
+
+  @IsString()
+  subAdministrativeArea:string
+
+  @IsString()
+  administrativeArea:string
+
+  @IsObject()
+  country:Country
+}
+
+
+
+export class LocationDto {
   @IsNotEmpty()
-  email: string;
-  
+  user_id: string; 
+
+  @IsNumber()
+  latitude: number;
+
+  @IsNumber()
+  longitude: number;
+
+  @IsString()
+  address: string;
+
+  @IsObject()
+  details: AddressDetails;
+}
+
+
+
+
+
+
+
+export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-
   
   @IsString()
   @IsNotEmpty()
@@ -26,15 +71,24 @@ export class UserDto {
 
   @IsString()
   @IsNotEmpty()
-  password
+  password:string
 
   @IsString()
-  address?: string;
+  @IsNotEmpty()
+  account_type:string
+
+  @IsString()
+  address?: LocationDto;
 
   registration_date?: Date;
   last_login_date?: Date;
   refreshToken?: string;
 }
+
+
+
+
+
 
 
 export class ArtistDto {
@@ -116,22 +170,4 @@ export class ReviewDto {
   comments: string;
 }
 
-export class LocationDto {
-  @IsNotEmpty()
-  user_id: string; 
 
-  @IsNumber()
-  latitude: number;
-
-  @IsNumber()
-  longitude: number;
-
-  @IsString()
-  city: string;
-
-  @IsString()
-  state: string;
-
-  @IsString()
-  country: string;
-}
