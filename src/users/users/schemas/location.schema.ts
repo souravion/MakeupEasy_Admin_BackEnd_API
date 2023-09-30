@@ -28,12 +28,21 @@ export class Location {
   @Prop({ type: String, required: true })
   country: string;
 
-  
+  @Prop({ type: String, required: true })
+  address: string;
+
   @Prop({ type: String, required: true })
   country_code: string;
 
   @Prop({ type: Number , required: true })
   postal_code: number;
+  
+  @Prop({ type: Array , required: true })
+  areasOfinterest: [];
+  
 }
 
 export const LocationSchema = SchemaFactory.createForClass(Location);
+
+
+

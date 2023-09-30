@@ -31,9 +31,14 @@ class AddressDetails {
   @IsString()
   administrativeArea:string
 
+  @IsString()
+  areasOfinterest:string
+  
   @IsObject()
   country:Country
 }
+
+
 
 
 
@@ -169,5 +174,6 @@ export class ReviewDto {
   @IsString()
   comments: string;
 }
+
 
 

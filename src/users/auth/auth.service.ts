@@ -17,6 +17,7 @@ export class UserAuthService {
         private locationService:LocationService
       ) {}
       async signUp(createUserDto: CreateUserDto): Promise<any> {
+        console.log(createUserDto)
         // Check if user exists
         const userExists = await this.usersService.findByUsername(
           createUserDto.phone,
@@ -31,7 +32,9 @@ export class UserAuthService {
           account_type:createUserDto.account_type,
           gender:"male"
         }
-        ///Hash password
+
+        // console.log(userInfo)
+        // /Hash password
         const hash = await this.hashData(createUserDto.password);
         const newUser = await this.usersService.create({
           ...userInfo,
@@ -42,15 +45,22 @@ export class UserAuthService {
         const location = {
           latitude:address.latitude,
           longitude:address.longitude,
+          address:address.address,
           sub_region:address.details.subLocality,
           city:address.details.locality,
           state:address.details.administrativeArea,
           country:address.details.country.name,
           country_code:address.details.country.code,
-          postal_code:address.details.postalCode
+          postal_code:address.details.postalCode,
+          areasOfinterest:address.details.areasOfinterest
         }
 
-        console.log(location)
+        // console.log(location)
+
+
+        
+
+        // console.log(location)
         await this.locationService.createLocation({
           ...location,
           user_id:newUser._id
