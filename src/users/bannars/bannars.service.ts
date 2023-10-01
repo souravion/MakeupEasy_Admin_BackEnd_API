@@ -11,9 +11,7 @@ export class BannarsService {
     throw new Error('Method not implemented.');
   }
   constructor(@InjectModel(Banners.name) private bannerModel :Model<BannersDcouments>){}
-  create(createBannarDto: CreateBannarDto) {
-    return 'This action adds a new bannar';
-  }
+
 
   async findAll(): Promise<BannersDcouments[]> {
     return this.bannerModel.find().exec();

@@ -7,11 +7,6 @@ import { UpdateBannarDto } from './dto/update-bannar.dto';
 export class BannarsController {
   constructor(private readonly bannarsService: BannarsService) {}
 
-  @Post()
-  create(@Body() createBannarDto: CreateBannarDto) {
-    return this.bannarsService.create(createBannarDto);
-  }
-
   @Get()
   findAll() {
     return this.bannarsService.findAll();
