@@ -9,7 +9,7 @@ import { LocationDto } from './dto/create-user.dto';
 export class LocationService {
     constructor(@InjectModel(Location.name) private readonly locatioModel:Model<LocationDocument>){}
 
-    async createLocation(locationData: LocationDto){
+    async createLocation(locationData: any){
         const location = new this.locatioModel(locationData)
         return location.save()
     }

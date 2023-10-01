@@ -17,42 +17,69 @@ export class UserAuthService {
         private locationService:LocationService
       ) {}
       async signUp(createUserDto: CreateUserDto): Promise<any> {
-
         console.log(createUserDto)
         // Check if user exists
         const userExists = await this.usersService.findByUsername(
-          createUserDto.userInfo.phone,
+          createUserDto.phone,
         );
         if (userExists) {
           throw new BadRequestException('User already exists');
         }
     
-        // Hash password
-        const hash = await this.hashData(createUserDto.userInfo.password);
+        const userInfo = {
+          name:createUserDto.name,
+          phone:createUserDto.phone,
+          account_type:createUserDto.account_type,
+          gender:"male"
+        }
+
+        // console.log(userInfo)
+        // /Hash password
+        const hash = await this.hashData(createUserDto.password);
         const newUser = await this.usersService.create({
-          ...createUserDto.userInfo,
+          ...userInfo,
           password: hash,
         });
 
+        const address = createUserDto.address
+        const location = {
+          latitude:address.latitude,
+          longitude:address.longitude,
+          address:address.address,
+          sub_region:address.details.subLocality,
+          city:address.details.locality,
+          state:address.details.administrativeArea,
+          country:address.details.country.name,
+          country_code:address.details.country.code,
+          postal_code:address.details.postalCode,
+          areasOfinterest:address.details.areasOfinterest
+        }
+
+        // console.log(location)
+
+
+        
+
+        // console.log(location)
         await this.locationService.createLocation({
-          ...createUserDto.locationInfo,
+          ...location,
           user_id:newUser._id
         })
 
 
-        const tokens = await this.getTokens(newUser._id, newUser.username,newUser.name);
+        const tokens = await this.getTokens(newUser._id, newUser.phone,newUser.name);
         await this.updateRefreshToken(newUser._id, tokens.refreshToken);
         return tokens;
       }
     
         async signIn(data: AuthDto) {
         // Check if user exists
-        const user = await this.usersService.findByUsername(data.username);
+        const user = await this.usersService.findByUsername(data.phone);
         if (!user) throw new BadRequestException('User does not exist');
         const passwordMatches = await argon2.verify(user.password, data.password);
         if (!passwordMatches)
           throw new BadRequestException('Password is incorrect');
-        const tokens = await this.getTokens(user._id, user.username, user.name);
+        const tokens = await this.getTokens(user._id, user.phone, user.name);
         await this.updateRefreshToken(user._id, tokens.refreshToken);
         return tokens;
       }
@@ -114,7 +141,7 @@ export class UserAuthService {
           refreshToken,
         );
         if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
-        const tokens = await this.getTokens(user.id, user.username, user.name);
+        const tokens = await this.getTokens(user.id, user.phone, user.name);
         await this.updateRefreshToken(user.id, tokens.refreshToken);
         return tokens;
       }

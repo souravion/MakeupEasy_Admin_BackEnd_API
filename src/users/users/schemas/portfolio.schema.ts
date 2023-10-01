@@ -7,7 +7,7 @@ export type PortfolioDocument = Portfolio & Document;
 @Schema()
 export class Portfolio {
     @Prop({ type: Types.ObjectId, ref: Artists.name, required: true })
-    artist_id: Types.ObjectId;
+    user_id: Types.ObjectId;
   
     @Prop([String])
     image_urls: string[];
